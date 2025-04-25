@@ -1,6 +1,8 @@
-# .
+# Vue.js 3 ハンズオン
 
 This template should help get you started developing with Vue 3 in Vite.
+
+URL: https://handson.vuejs-jp.org/
 
 ## Recommended IDE Setup
 
