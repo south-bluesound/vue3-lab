@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue';
+import Card from './components/Card.vue';
 
 const items = ref([
   {
@@ -44,16 +45,19 @@ const items = ref([
   }
 ])
 
-const pricePrefix = (price) => {
-  return price.toLocaleString();
+const changeSoldOut = (id) => {
+  const pickElm = items.value.find(item => item.id === id);
+  if (pickElm) {
+    pickElm.soldOut = true;
+  }
+}
+
+const stockItem = (item) => {
+    item.soldOut = false;
 }
 
 const stockQuantity = () => {
   return items.value.filter(item => item.soldOut === false).length;
-}
-
-const stockItem = (item) => {
-  item.soldOut = false;
 }
 
 const getDate = () => {
@@ -92,16 +96,14 @@ const getDateComputed = computed(() => {
         :class="{'selected-item': item.isSelected}"
         @click="item.isSelected = !item.isSelected"
       >
-        <div class="thumbnail">
-          <img
-            :src="item.image"
-            alt="">
-        </div>
-        <div class="description">
-          <h2>{{ item.name }}</h2>
-          <p>{{ item.description }}</p>
-          <span>￥<span class="price">{{ pricePrefix(item.price) }}</span></span>
-        </div>
+        <Card
+          :id="item.id"
+          :name="item.name"
+          :description="item.description"
+          :price="item.price"
+          :image="item.image"
+          @sold-out="changeSoldOut"
+        />
       </div>
       <div v-else>
         売り切れです！<button type="button" @click="stockItem(item)">入荷</button>
@@ -161,35 +163,6 @@ body {
 .item:hover {
   transition: 0.2s transform ease-out;
   transform: scale(1.05);
-}
-
-.item > div.thumbnail > img {
-  width: 100%;
-  height: calc(100%);
-  object-fit: cover;
-}
-
-.item > div.description {
-  text-align: left;
-  margin-top: 20px;
-}
-
-.item > div.description > p {
-  margin-top: 0px;
-  margin-bottom: 0px;
-  font-size: 18px;
-  line-height: 25px;
-}
-
-.item > div.description > span {
-  display: block;
-  margin-top: 10px;
-  font-size: 20px;
-}
-
-.item > div.description > span > .price {
-  font-size: 28px;
-  font-weight: bold;
 }
 
 .selected-item {
