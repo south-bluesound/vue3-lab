@@ -10,11 +10,6 @@ defineProps({
         default: '',
         required: true
     },
-    description: {
-        type: String,
-        default: '',
-        required: true
-    },
     price: {
         type: Number,
         default: 0,
@@ -43,7 +38,7 @@ const emit = defineEmits(['sold-out'])
     </div>
     <div class="description">
         <h2>{{ name }}</h2>
-        <p>{{ description }}</p>
+        <slot name="body" />
         <span>￥<span class="price">{{ pricePrefix(price) }}</span></span>
     </div>
     <button type="button" @click="$emit('sold-out', id)">売り切れ</button>

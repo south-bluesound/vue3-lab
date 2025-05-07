@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import Card from './components/Card.vue';
+import CardBody from './components/CardBody.vue';
 
 const items = ref([
   {
@@ -11,7 +12,8 @@ const items = ref([
     price: 480,
     image: '/images/item1.jpg',
     soldOut: false,
-    isSelected: false
+    isSelected: false,
+    link: 'https://handson.vuejs-jp.org/'
   },
   {
     id: 2,
@@ -99,11 +101,17 @@ const getDateComputed = computed(() => {
         <Card
           :id="item.id"
           :name="item.name"
-          :description="item.description"
           :price="item.price"
           :image="item.image"
           @sold-out="changeSoldOut"
-        />
+        >
+          <template #body>
+            <CardBody
+              :description="item.description"
+              :link="item.link"
+            />
+          </template>
+        </Card>
       </div>
       <div v-else>
         売り切れです！<button type="button" @click="stockItem(item)">入荷</button>
